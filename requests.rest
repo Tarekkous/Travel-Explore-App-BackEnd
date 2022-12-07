@@ -1,0 +1,12 @@
+GET http://localhost:7000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2ZpcnN0TmFtZSI6Im15bnNlY29uZF9OYW1lIiwidXNlcl9sYXN0TmFtZSI6Im15bnNlY29uZF9OYW1lIiwidXNlcl9tYWlsIjoibXkgbWFpbCAxMzQ1MiIsInVzZXJfbWRwIjoiTXkgcGFzcyAxMjMgIiwiaWF0IjoxNjY5OTg4NzExfQ.dLwUc3GBAHzVEmaPxzh8X32Knt41UmwA3RPrLCUsh6I
+###
+
+# POST http://localhost:7000/user
+# Content-Type: application/json
+# {
+#     "user_firstName" : "mynsecond_Name",
+#     "user_lastName" : "mynsecond_Name",
+#     "user_mail" : "my mail 1345z",
+#     "user_mdp":"My pass 123 "
+# }
