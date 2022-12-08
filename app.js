@@ -5,8 +5,8 @@ const { json, Router } = require("express");
 
 // Routes déclarations
 const routerUser = require('./routes/user/user.route');
-const routerList = require('./routes/todolist/todolist.route')
-const routerDescription = require('./routes/description/description.route')
+const routerList = require('./routes/todolist/todolist.route');
+const routerDescription = require('./routes/description/description.route');
 
 app.use(express.json());
 app.use(

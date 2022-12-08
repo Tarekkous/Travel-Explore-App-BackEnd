@@ -2,6 +2,8 @@ const pool = require ('../../db')
 const jwt = require('jsonwebtoken') 
 require('dotenv').config()
 const bcrypt = require('bcrypt')
+
+
 // !METHODE GET
 exports.getUser = 
  async (req, res) => {
@@ -34,9 +36,10 @@ function authenticateToken (req,res,next) {
     // 403 Forbidden 
     req.user = data
     console.log('ici USER == > ' ,data);
-    next()
+    next()  
   })
 };
+
 
 //! METHODE POST LOGIN
 exports.postLogin =
@@ -46,9 +49,9 @@ exports.postLogin =
       const loginUser = await pool.query(
         `SELECT * FROM "user" WHERE user_mail = $1`, [user_mail]
       );
-      console.log(loginUser.rows);
+      console.log('ici loginUser.rows.mdp : ' ,loginUser.rows[0].user_mdp);
       // on vérifie si on reçoit tout dans le backend (mail + motdepasse)
-        if(loginUser.rows.length === 0) return res.status(401).send('Invalid mail & Password')
+        if(loginUser.rows.length === 0) return res.status(401).send('Invalid mail')
         // Comparer le mot de passe entré et le mot de passe crypté 
         const validPassword = await bcrypt.compare(user_mdp, loginUser.rows[0].user_mdp)
         if (!validPassword) return res.status(400).send('Invalid Password')
@@ -56,12 +59,12 @@ exports.postLogin =
       const username = {name : req.body}
       // jwt.sign(payload,secretPrivateKey)
       const accessToken = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET)
-      res.json({accessToken:accessToken});
+      res.json({loginUser:loginUser.rows[0], accessToken:accessToken});
 
 
     } catch (err) {
       console.error("ici erreur :", err.message);
-      res.status(401).send("Please use another mail Adress")
+      res.status(401).send("Please use another mail Adress");
     }
   }
 // !METHODE POST Register
@@ -101,9 +104,11 @@ exports.postRegister =
       const { id } = req.params;
       console.log(req.body);
       const { user_firstName, user_lastName, user_mail, user_mdp } = req.body;
+      const hashedPwd = await bcrypt.hash(utilisateur_mdp, 10);
+      console.log('Hashed password', hashedPwd);
       const userUpdated = await pool.query(
         'UPDATE "user" SET user_firstName= $1,user_lastName= $2,user_mail= $3,user_mdp= $4 WHERE user_id = $5',
-        [user_firstName, user_lastName, user_mail, user_mdp, id]
+        [user_firstName, user_lastName, user_mail, hashedPwd, id]
       );
       res.json("user updated !");
     } catch (err) {
