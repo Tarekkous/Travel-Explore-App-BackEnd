@@ -45,6 +45,7 @@ function authenticateToken (req,res,next) {
 exports.postLogin =
   async (req, res) => {
     try {
+      console.log(req.body);
       const {user_mdp, user_mail } = req.body;
       const loginUser = await pool.query(
         `SELECT * FROM "user" WHERE user_mail = $1`, [user_mail]
