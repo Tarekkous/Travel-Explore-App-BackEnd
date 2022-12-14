@@ -44,18 +44,31 @@ exports.postList =
    async (req, res) => {
     try {
       const { id } = req.params;
-      const deleteUser = await pool.query
+      const deleteList = await pool.query
       (`DELETE FROM todolist WHERE user_id = $1`,[id]);
       res.json('Deleted !!');
     } catch (err) {
       console.log('Error ::::::',err.message);
     }
   }
+  exports.deleteOneList =
+  async (req,res)=> {
+  try {  
+  const {id1} = req.params
+  const {id2} = req.params
+  const deleteOneList = await pool.query 
+  ('DELETE FROM todolist WHERE user_id = $1 and todolist_id = $2' ,[id1,id2])
+    res.json('Deleted')
+  } catch (error) {
+    console.warn(error.message);
+    res.status(401).send('Failed to delete List!')
+  }
+  }
   exports.getOneList =
   async (req, res) => {
     const { id } = req.params;
     const todolistUser = await pool.query(
-      " SELECT list_title FROM todolist WHERE user_id=$1",
+      " SELECT * FROM todolist WHERE user_id=$1",
       [id]
     );
     res.json(todolistUser.rows);

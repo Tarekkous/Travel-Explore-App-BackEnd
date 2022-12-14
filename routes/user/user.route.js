@@ -13,9 +13,9 @@ routerUser
 
 routerUser
 .route("/user/:id")
-    .put(authFct,putUser)
+    .put(putUser)
 
-    .delete(authFct,deleteUser)
+    .delete(deleteUser)
 
     .get (getOneUser);
 

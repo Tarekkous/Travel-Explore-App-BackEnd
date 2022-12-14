@@ -13,6 +13,7 @@ exports.getUser =
       // console.log('HERE USER 123',req.user.name.user_firstName);
       // console.log(allUsers.rows[0].user_firstname);
       // console.log( 'filter log ::=> ' ,allUsers.rows.filter(user => user.name === req.user.name));
+      console.log('aaezaezae',allUsers);
       const usersFiltred = allUsers.rows.filter(post => post.user_mail === req.user.name.user_mail)
       res.json(usersFiltred);
     } catch (err) {
@@ -25,8 +26,9 @@ exports.authFct = (authenticateToken)
 //! Function for VERIFY a TOKEN 
 function authenticateToken (req,res,next) {
   const authHeader = req.headers['authorization']
-  console.log(authHeader);
+  console.log(req.headers);
   //on a enlevé le index [1] pour afficher le TOKEN  ' (split[1])
+  // const TOKEN = authHeader
   const TOKEN = authHeader && authHeader.split(' ')[1] 
   console.log('voici le TOKEN : ' ,TOKEN);
   if (TOKEN == null) return res.sendStatus(401)
@@ -45,7 +47,6 @@ function authenticateToken (req,res,next) {
 exports.postLogin =
   async (req, res) => {
     try {
-      console.log(req.body);
       const {user_mdp, user_mail } = req.body;
       const loginUser = await pool.query(
         `SELECT * FROM "user" WHERE user_mail = $1`, [user_mail]
@@ -60,7 +61,7 @@ exports.postLogin =
       const username = {name : req.body}
       // jwt.sign(payload,secretPrivateKey)
       const accessToken = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET)
-      res.json({loginUser:loginUser.rows[0], accessToken:accessToken});
+      res.json({loginUser:loginUser.rows[0] ,accessToken:accessToken});
 
 
     } catch (err) {
@@ -88,7 +89,7 @@ exports.postRegister =
         `INSERT INTO "user" (user_firstName,user_lastName,user_mail,user_mdp) VALUES ($1,$2,$3,$4) RETURNING *`,
         [user_firstName, user_lastName, user_mail, haschedPassword]
       );
-
+     
       res.status(200).json(createNewUser);
     } catch (err) {
       console.error("ici erreur :", err.message);
@@ -105,15 +106,17 @@ exports.postRegister =
       const { id } = req.params;
       console.log(req.body);
       const { user_firstName, user_lastName, user_mail, user_mdp } = req.body;
-      const hashedPwd = await bcrypt.hash(utilisateur_mdp, 10);
+      //! hashage mdp 
+      const hashedPwd = await bcrypt.hash(user_mdp, 10);
       console.log('Hashed password', hashedPwd);
       const userUpdated = await pool.query(
-        'UPDATE "user" SET user_firstName= $1,user_lastName= $2,user_mail= $3,user_mdp= $4 WHERE user_id = $5',
+        'UPDATE "user" SET user_firstName= $1,user_lastName= $2,user_mail= $3,user_mdp= $4 WHERE user_id = $5 RETURNING *',
         [user_firstName, user_lastName, user_mail, hashedPwd, id]
       );
-      res.json("user updated !");
+      res.json(userUpdated.rows);
     } catch (err) {
       console.log(err.message);
+     return  res.status(405).send("Please use another mail Adress")
     }
   }
 // !METHODE DELETE
