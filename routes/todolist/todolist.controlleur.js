@@ -63,7 +63,7 @@ exports.postList =
     console.warn(error.message);
     res.status(401).send('Failed to delete List!')
   }
-  }
+  };
   exports.getOneList =
   async (req, res) => {
     const { id } = req.params;
@@ -72,4 +72,4 @@ exports.postList =
       [id]
     );
     res.json(todolistUser.rows);
-  }
+  };

@@ -12,7 +12,7 @@ exports.getDescription = async (req, res) => {
 exports.getOneDescription = async (req, res) => {
   const { id } = req.params;
   const list_description = await pool.query(
-    "SELECT description FROM detail WHERE todolist_id= $1",
+    "SELECT * FROM detail WHERE todolist_id= $1",
     [id]
   );
   res.json(list_description.rows);
@@ -36,11 +36,13 @@ exports.updateDescription = async (req, res) => {
   try {
     const { id } = req.params;
     const { description } = req.body;
+    console.log(id);
+    console.log(description);
     const userUpdated = await pool.query(
-      "UPDATE detail SET description= $1 WHERE todolist_id = $2",
+      "UPDATE detail SET description= $1 WHERE detail_id = $2",
       [description, id]
     );
-    res.json("Updated !");
+    res.json(userUpdated.rows);
   } catch (err) {
     console.log(err.message);
   }
