@@ -7,17 +7,20 @@ const { json, Router } = require("express");
 const routerUser = require('./routes/user/user.route');
 const routerList = require('./routes/todolist/todolist.route');
 const routerDescription = require('./routes/description/description.route');
+const routerContact = require('./routes/contact/contact.route');
 
 app.use(cors());
 app.use(express.json());
 app.use(
   express.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
+
 app.use(routerUser)
 app.use(routerList)
 app.use(routerDescription)
+app.use(routerContact)
 
 app.get("/", (req, res) => {
   res.send("Works");
