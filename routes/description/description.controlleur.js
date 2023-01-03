@@ -58,4 +58,20 @@ exports.deleteDescription = async (req, res) => {
   } catch (err) {
     console.log(err.message);
   }
+
+  
+};
+exports.deleteAllDescription = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteAllDescriptions = await pool.query(
+      "DELETE FROM detail WHERE todolist_id = $1",
+      [id]
+    );
+    res.json("Description Deleted !!");
+  } catch (err) {
+    console.log(err.message);
+  }
+
+  
 };

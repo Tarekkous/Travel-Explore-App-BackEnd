@@ -34,7 +34,7 @@ ALTER TABLE IF EXISTS public.detail
     ADD CONSTRAINT todolist_id FOREIGN KEY (todolist_id)
     REFERENCES public.todolist (todolist_id) MATCH SIMPLE
     ON UPDATE RESTRICT
-    ON DELETE RESTRICT;
+    ON DELETE CASCADE;
 CREATE INDEX IF NOT EXISTS get_fk
     ON public.detail(todolist_id);
 
@@ -43,7 +43,7 @@ ALTER TABLE IF EXISTS public.todolist
     ADD CONSTRAINT user_id FOREIGN KEY (user_id)
     REFERENCES public.user (user_id) MATCH SIMPLE
     ON UPDATE RESTRICT
-    ON DELETE RESTRICT;
+    ON DELETE CASCADE;
 CREATE INDEX IF NOT EXISTS create_fk
     ON public.todolist(user_id);
 

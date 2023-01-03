@@ -5,7 +5,7 @@ const pool = new Pool ({
     password: 'database',
     host: 'localhost',
     localhost: 5432,
-    database: 'VOYAGE_DB'
+    database: 'TRAVEL&EXPLORE-DB'
 });
 
 module.exports = pool;

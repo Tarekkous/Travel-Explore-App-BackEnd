@@ -134,6 +134,7 @@ exports.postRegister =
       console.log("Error ::::::", err.message);
     }
   }
+ 
 // !METHODE GetOneUser
 
   exports.getOneUser =

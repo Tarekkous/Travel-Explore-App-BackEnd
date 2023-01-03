@@ -56,9 +56,12 @@ exports.postList =
   try {  
   const {id1} = req.params
   const {id2} = req.params
-  const deleteOneList = await pool.query 
-  ('DELETE FROM todolist WHERE user_id = $1 and todolist_id = $2' ,[id1,id2])
-    res.json('Deleted')
+  const deletedesc = await pool.query 
+  ('DELETE FROM detail WHERE todolist_id = $1' ,[id1]).then(()=>{
+   const deletelist =  pool.query ('DELETE FROM todolist WHERE todolist_id = $1 and user_id = $2' ,[id1,id2])
+   res.json('Deleted successfully!')
+  }
+  )
   } catch (error) {
     console.warn(error.message);
     res.status(401).send('Failed to delete List!')
