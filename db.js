@@ -5,7 +5,7 @@ const pool = new Pool ({
     password: 'LCcOCmJQrgFIMQVNQG3RNzQTgtcg7kkb',
     host: 'dpg-ceql1d9gp3jv6g755vag-a.frankfurt-postgres.render.com',
     localhost: 5432,
-    database: 'travel_explore-db'
+    database: 'travel_explore_db'
 });
 
 module.exports = pool;
